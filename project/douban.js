@@ -59,15 +59,18 @@ const movieFromDiv = function(div) {
 const saveMovies = function(movies) {
     // 这个函数用来把一个保存了所有电影对象的数组保存到文件中
     const fs = require('fs')
-    const path = 'D:\\前端课程资料\\爬虫\\项目文件\\豆瓣数据\\Movie.txt'
+    const path = '豆瓣数据\\Movie.txt'
+    log('path ', path)
     // 第二个参数是 null 不用管
     // 第三个参数是 缩进层次
     log('first movie ranking ', movies[0].ranking)
     const s = JSON.stringify(movies, null, 2)
     if(movies[0].ranking == '1') {
-      fs.writeFileSync(path, s)
+        fs.writeFileSync(path, s)
+        done = true
     }else {
-      fs.appendFile(path, s)
+        fs.appendFileSync(path, s)
+        done = true
     }
 }
 
@@ -162,18 +165,33 @@ const moviesFromUrl = function(url) {
     })
 }
 
+var curr = 0
+var done = true
+
 const __main = function() {
     // 这是主函数
     // 下载网页, 解析出电影信息, 保存到文件
-    var start = 0
-    for (var i = 0; i < 10; i++) {
-        var curr = start + 25 * i
+    // var start = 0
+    // for (var i = 0; i < 10; i++) {
+    //     var curr = start + 25 * i
+    //     const url = `https://movie.douban.com/top250?start=${curr}&filter=`
+    //     log('url', url)
+    //     moviesFromUrl(url)
+    // }
+    if(done == true) {
+        done = false
         const url = `https://movie.douban.com/top250?start=${curr}&filter=`
         log('url', url)
         moviesFromUrl(url)
+        curr += 25
+        if(curr == 250) {
+            clearInterval(sh)
+        }
     }
 }
 
 
 // 程序开始的主函数
-__main()
+// __main()
+
+var sh = setInterval(__main, 1000)
