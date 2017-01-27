@@ -30,7 +30,7 @@ const Movie = function() {
     this.country = ''
     this.category = []
     this.quote = ''
-    this.coverUrl = ''    
+    this.coverUrl = ''
 }
 
 
@@ -86,7 +86,6 @@ const saveMovies = function(movies) {
     // 这个函数用来把一个保存了所有电影对象的数组保存到文件中
     const fs = require('fs')
     const path = '豆瓣数据\\Movie.txt'
-    log('path ', path)
     // 第二个参数是 null 不用管
     // 第三个参数是 缩进层次
     log('first movie ranking ', movies[0].ranking)
@@ -207,7 +206,7 @@ const __main = function() {
     if(done == true) {
         done = false
         const url = `https://movie.douban.com/top250?start=${curr}&filter=`
-        log('url', url)
+        // log('url', url)
         moviesFromUrl(url)
         curr += 25
         if(curr == 250) {
