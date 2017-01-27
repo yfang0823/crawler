@@ -23,11 +23,14 @@ npm install request cheerio
 // 这里只定义了 5 个要保存的数据
 // 分别是  电影名 评分 引言 排名 封面图片地址
 const Movie = function() {
+    this.ranking = 0
     this.name = ''
     this.score = 0
+    this.year = ''
+    this.country = ''
+    this.category = []
     this.quote = ''
-    this.ranking = 0
-    this.coverUrl = ''
+    this.coverUrl = ''    
 }
 
 
@@ -53,7 +56,30 @@ const movieFromDiv = function(div) {
     // 元素的属性用 .attr('属性名') 确定
     movie.coverUrl = pic.find('img').attr('src')
 
+    // 年份，电影类型
+    const bd = e('.bd')
+    var bdText = e('.bd').find('p').text()
+    var data = parseText(bdText)
+    movie.year = data.year
+    movie.country = data.country
+    movie.category = data.category
     return movie
+}
+
+// 提取<div class="bd">中的年份，国家，类型信息
+var parseText = function(text) {
+    var arr = text.split('\n')
+    var arr = arr[2].trim().split('/')
+    var year = arr[0].trim()
+    var country = arr[1].trim()
+    var category = arr[2].trim().split(' ')
+    var result = {
+        "year": year,
+        "country": country,
+        "category": category,
+    }
+    // log('res ', result)
+    return result
 }
 
 const saveMovies = function(movies) {
@@ -187,6 +213,7 @@ const __main = function() {
         if(curr == 250) {
             clearInterval(sh)
         }
+        // clearInterval(sh)
     }
 }
 
