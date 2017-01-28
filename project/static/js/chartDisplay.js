@@ -1,30 +1,20 @@
-const loadData = function() {
-    var path = '豆瓣数据\\yearCount.txt'
-    var file = fs.readFileSync(path, {encoding:"utf8"})
-    var text = JSON.parse(file)
-    return text
+var ajax = function(method, path, data, reseponseCallback) {
+    var r = new XMLHttpRequest()
+    // 设置请求方法和请求地址
+    r.open(method, path, true)
+    // 设置发送的数据的格式
+    r.setRequestHeader('Content-Type', 'application/json')
+    // 注册响应函数
+    r.onreadystatechange = function() {
+        if(r.readyState === 4) {
+            reseponseCallback(r)
+        }
+    }
+    // 发送请求
+    r.send(data)
 }
 
-const parseData = function() {
-    var text = loadData()
-    var keys = Object.keys(text)
-    var years = []
-    var counts = []
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i]
-        years.push(key)
-        var num = text[key]
-        counts.push(num)
-    }
-    var data = {
-        "years": years,
-        "counts": counts,
-    }
-    return data
-}
-
-const makeOption = function() {
-    var data = parseData()
+const makeOption = function(data) {
     var years = data.years
     var counts = data.counts
     var option = {
@@ -48,13 +38,21 @@ const makeOption = function() {
     return option
 }
 
-const showChart = function() {
+const showChart = function(option) {
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
     // 指定图表的配置项和数据
-    var option = makeOption()
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 }
 
-showChart()
+const loadData = function() {
+    var path = '/data'
+    ajax('get', path, '', function(r){
+        var data = JSON.parse(r.response)
+        var option = makeOption(data)
+        showChart(option)
+    })
+}
+
+loadData()

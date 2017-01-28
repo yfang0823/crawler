@@ -103,6 +103,28 @@ app.get('/chart', function(request, response) {
     response.send(t)
 })
 
+// 读取本地统计数据，返回给前端
+app.get('/data', function(request, response) {
+    var path = '豆瓣数据\\yearCount.txt'
+    var file = fs.readFileSync(path, {encoding:"utf8"})
+    var text = JSON.parse(file)
+    var keys = Object.keys(text)
+    var years = []
+    var counts = []
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i]
+        years.push(key)
+        var num = text[key]
+        counts.push(num)
+    }
+    var r = {
+        "years": years,
+        "counts": counts,
+    }
+    r = JSON.stringify(r)
+    response.send(r)
+})
+
 // listen 函数的第一个参数是我们要监听的端口
 // 这个端口是要浏览器输入的
 // 默认的端口是 80
