@@ -2,62 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>年份统计</title>
+    <title>豆瓣电影top250年代数据统计</title>
     <script src="http://cdn.bootcss.com/echarts/3.4.0/echarts.min.js"></script>
   </head>
   <body>
       <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
       <div id="main" style="width: 600px;height:400px;"></div>
-      <script type="text/javascript">
-           // 基于准备好的dom，初始化echarts实例
-           var myChart = echarts.init(document.getElementById('main'));
-
-           // 指定图表的配置项和数据
-           var option = {
-               title: {
-                   text: 'ECharts 入门示例'
-               },
-               tooltip: {},
-               legend: {
-                   data:['电影部数']
-               },
-               xAxis: {
-                   data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-               },
-               yAxis: {},
-               series: [{
-                   name: '销量',
-                   type: 'bar',
-                   data: [5, 20, 36, 10, 10, 20]
-               }]
-           };
-
-           // 使用刚指定的配置项和数据显示图表。
-           myChart.setOption(option);
-
-          //  // 封装ajax
-          // var ajax = function(method, path, headers, data, reseponseCallback) {
-          //     var r = new XMLHttpRequest()
-          //     r.open(method, path, true)
-          //     // 设置发送的数据的格式
-          //     r.setRequestHeader('Content-Type', 'application/json')
-          //     // 注册响应函数
-          //     r.onreadystatechange = function() {
-          //       if (r.readyState === 4) {
-          //           reseponseCallback(r)
-          //       }
-          //     }
-          //     if(data != '') {
-          //         r.send(data)
-          //     } else {
-          //         r.send()
-          //     }
-          // }
-          //
-          // var path = 'http://:::8081/get/chart'
-          // ajax('get', path, '', '', function(r){
-          //     console.log(r.response)
-          // })
-       </script>
+      <script src="/js/chartDisplay.js"></script>
   </body>
 </html>

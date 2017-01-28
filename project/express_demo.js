@@ -15,7 +15,7 @@ var sendHtml = function(path, response) {
         encoding: 'utf-8'
     }
     fs.readFile(path, options, function(err, data){
-        console.log(`读取的html文件 ${path} 内容是`, data)
+        console.log(`读取的html文件 ${path} 内容是\n`, data)
         response.send(data)
     })
 }
@@ -40,6 +40,8 @@ app.get('/', function(request, response) {
 })
 
 var makeTemplate = function(years, counts) {
+    var y = JSON.stringify(years)
+    var c = JSON.stringify(counts)
     var t = `
       <!DOCTYPE html>
       <html>
@@ -65,13 +67,13 @@ var makeTemplate = function(years, counts) {
                          data:['电影部数']
                      },
                      xAxis: {
-                         data: [${years}]
+                         data: ${y}
                      },
                      yAxis: {},
                      series: [{
-                         name: '部数',
+                         name: '电影部数',
                          type: 'bar',
-                         data: [${counts}]
+                         data: ${c}
                      }]
                  };
 
